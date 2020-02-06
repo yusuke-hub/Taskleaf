@@ -60,4 +60,6 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.logger = Logger.new('log/development.log', 'daily')
   config.logger = Logger.new('log/custom.log', 'weekly')
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = { address: '127.0.0.1', port: 1025 }
 end
