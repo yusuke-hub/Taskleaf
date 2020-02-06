@@ -8,6 +8,10 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
   end
+  def confirm_new
+    @task = current_user.tasks.new(task_params)
+    render :new unless @task.valid?
+  end
   def create
     @task = current_user.tasks.new(task_params)
     if @task.save
@@ -37,6 +41,6 @@ class TasksController < ApplicationController
   def task_logger
     @task_logger ||= Logger.new('log/task.log', 'daily')
 
-    task_logger.debug 'taskのログを出力　'
+    task_logger.debug 'taskのログを出力'
   end
 end
