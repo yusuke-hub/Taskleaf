@@ -10,8 +10,9 @@ class TasksController < ApplicationController
   end
   def create
     @task = current_user.tasks.new(task_params)
-    if task.save!
-      redirect_to tasks_url, notice: "タスク「#{task.name}」を登録しました。"
+    if @task.save
+      logger.debug "task: #{@task.attributes.inspect}"
+      redirect_to @task, notice: "タスク「#{@task.name}」を登録しました。"
     else
       render :new
     end
@@ -32,5 +33,10 @@ class TasksController < ApplicationController
   end
   def set_task
     @task = current_user.tasks.find(params[:id])
+  end
+  def task_logger
+    @task_logger ||= Logger.new('log/task.log', 'daily')
+
+    task_logger.debug 'taskのログを出力　'
   end
 end
